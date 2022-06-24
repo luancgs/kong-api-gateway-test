@@ -4,13 +4,9 @@
 
 Simple test using [Kong API Gateway](https://konghq.com/kong) to manage three simple [express](http://expressjs.com) endpoints.
 
----
-
 ## Dependencies
 
 - [Docker](https://www.docker.com/)
-
----
 
 ## How to use
 
