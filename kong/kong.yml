@@ -1,0 +1,31 @@
+_format_version: '1.1'
+_transform: true
+
+services:
+  - host: endpoint1
+    name: endpoint_1
+    port: 3001
+    protocol: http
+    routes:
+      - name: end1
+        paths:
+          - /end1
+        strip_path: true
+  - host: endpoint2
+    name: endpoint_2
+    port: 3002
+    protocol: http
+    routes:
+      - name: end2
+        paths:
+          - /end2
+        strip_path: true
+  - host: endpoint3
+    name: endpoint_3
+    port: 3003
+    protocol: http
+    routes:
+      - name: end3
+        paths:
+          - /end3
+        strip_path: true
