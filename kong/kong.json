@@ -1,0 +1,84 @@
+{
+  "_format_version": "1.1",
+  "_transform": true,
+  "services": [
+    {
+      "host": "api1",
+      "name": "service1",
+      "port": 3000,
+      "protocol": "http",
+      "routes": [
+        {
+          "name": "endpoint1",
+          "paths": ["/end1"],
+          "strip_path": true,
+          "plugins": [
+            {
+              "name": "key-auth"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "host": "api2",
+      "name": "service2",
+      "port": 3000,
+      "protocol": "http",
+      "routes": [
+        {
+          "name": "endpoint2",
+          "paths": ["/end2"],
+          "strip_path": true
+        }
+      ]
+    },
+    {
+      "host": "api3",
+      "name": "service3",
+      "port": 3000,
+      "protocol": "http",
+      "routes": [
+        {
+          "name": "endpoint3",
+          "paths": ["/end3"],
+          "strip_path": true
+        }
+      ]
+    }
+  ],
+  "plugins": [
+    {
+      "name": "rate-limiting",
+      "config": {
+        "minute": 5,
+        "policy": "local"
+      }
+    },
+    {
+      "name": "proxy-cache",
+      "config": {
+        "content_type": ["application/json; charset=utf-8"],
+        "cache_ttl": 30,
+        "strategy": "memory"
+      }
+    },
+    {
+      "name": "prometheus",
+      "config": {
+        "per_consumer": true
+      }
+    }
+  ],
+  "consumers": [
+    {
+      "custom_id": "consumer1",
+      "username": "usuario1",
+      "keyauth_credentials": [
+        {
+          "key": "chave1"
+        }
+      ]
+    }
+  ]
+}
