@@ -1,0 +1,335 @@
+{
+	"info": {
+		"_postman_id": "de823e2a-5f5f-494b-9df7-aedf3d02e99b",
+		"name": "Kong Gateway",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Endpoints",
+			"item": [
+				{
+					"name": "Enpoint 1",
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "in",
+									"value": "header",
+									"type": "string"
+								},
+								{
+									"key": "value",
+									"value": "{{api_key}}",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "apikey",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "apikey",
+								"value": "{{mykey}}",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{GATEWAY_URL}}/end1",
+							"host": [
+								"{{GATEWAY_URL}}"
+							],
+							"path": [
+								"end1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Enpoint 2",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "apikey",
+								"value": "{{mykey}}",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{GATEWAY_URL}}/end2",
+							"host": [
+								"{{GATEWAY_URL}}"
+							],
+							"path": [
+								"end2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Enpoint 3",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "apikey",
+								"value": "{{mykey}}",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{GATEWAY_URL}}/end3",
+							"host": [
+								"{{GATEWAY_URL}}"
+							],
+							"path": [
+								"end3"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Services",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{ADMIN_API_URL}}/services",
+					"host": [
+						"{{ADMIN_API_URL}}"
+					],
+					"path": [
+						"services"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Endpoint 1 Plugins",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{ADMIN_API_URL}}/services/endpoint1/plugins",
+					"host": [
+						"{{ADMIN_API_URL}}"
+					],
+					"path": [
+						"services",
+						"endpoint1",
+						"plugins"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Metrics",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{ADMIN_API_URL}}/metrics",
+					"host": [
+						"{{ADMIN_API_URL}}"
+					],
+					"path": [
+						"metrics"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Reload Config",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const config = {",
+							"  \"_format_version\": \"1.1\",",
+							"  \"_transform\": true,",
+							"  \"services\": [",
+							"    {",
+							"      \"host\": \"api1\",",
+							"      \"name\": \"service1\",",
+							"      \"port\": 3000,",
+							"      \"protocol\": \"http\",",
+							"      \"routes\": [",
+							"        {",
+							"          \"name\": \"endpoint1\",",
+							"          \"paths\": [\"/end1\"],",
+							"          \"strip_path\": true,",
+							"          \"plugins\": [",
+							"            {",
+							"              \"name\": \"key-auth\"",
+							"            }",
+							"          ]",
+							"        }",
+							"      ]",
+							"    },",
+							"    {",
+							"      \"host\": \"api2\",",
+							"      \"name\": \"service2\",",
+							"      \"port\": 3000,",
+							"      \"protocol\": \"http\",",
+							"      \"routes\": [",
+							"        {",
+							"          \"name\": \"endpoint2\",",
+							"          \"paths\": [\"/end2\"],",
+							"          \"strip_path\": true",
+							"        }",
+							"      ]",
+							"    },",
+							"    {",
+							"      \"host\": \"api3\",",
+							"      \"name\": \"service3\",",
+							"      \"port\": 3000,",
+							"      \"protocol\": \"http\",",
+							"      \"routes\": [",
+							"        {",
+							"          \"name\": \"endpoint3\",",
+							"          \"paths\": [\"/end3\"],",
+							"          \"strip_path\": true",
+							"        }",
+							"      ]",
+							"    }",
+							"  ],",
+							"  \"plugins\": [",
+							"    {",
+							"      \"name\": \"rate-limiting\",",
+							"      \"config\": {",
+							"        \"minute\": 5,",
+							"        \"policy\": \"local\"",
+							"      }",
+							"    },",
+							"    {",
+							"      \"name\": \"proxy-cache\",",
+							"      \"config\": {",
+							"        \"content_type\": [\"application/json; charset=utf-8\"],",
+							"        \"cache_ttl\": 30,",
+							"        \"strategy\": \"memory\"",
+							"      }",
+							"    },",
+							"    {",
+							"      \"name\": \"prometheus\",",
+							"      \"config\": {",
+							"        \"per_consumer\": true",
+							"      }",
+							"    }",
+							"  ],",
+							"  \"consumers\": [",
+							"    {",
+							"      \"custom_id\": \"consumer1\",",
+							"      \"username\": \"usuario1\",",
+							"      \"keyauth_credentials\": [",
+							"        {",
+							"          \"key\": \"chave1\"",
+							"        }",
+							"      ]",
+							"    }",
+							"  ]",
+							"};",
+							"",
+							"pm.variables.set('kong_config', JSON.stringify(config));"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "config",
+							"value": "{{kong_config}}",
+							"type": "default"
+						}
+					],
+					"options": {
+						"raw": {
+							"language": "text"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{ADMIN_API_URL}}/config",
+					"host": [
+						"{{ADMIN_API_URL}}"
+					],
+					"path": [
+						"config"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "ADMIN_API_URL",
+			"value": "http://localhost:8001",
+			"type": "default"
+		},
+		{
+			"key": "GATEWAY_URL",
+			"value": "http://localhost:8000",
+			"type": "default"
+		},
+		{
+			"key": "api_key",
+			"value": "chave1",
+			"type": "default"
+		},
+		{
+			"key": "kong_config",
+			"value": "",
+			"type": "default"
+		}
+	]
+}
