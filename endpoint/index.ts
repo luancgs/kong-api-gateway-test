@@ -2,7 +2,7 @@ import express from 'express';
 
 const app: express.Application = express();
 
-const port: number = Number(process.env.PORT_NUMBER);
+const port: number = 3000;
 
 app.get('/', (_req, _res) => {
   _res.send(`TypeScript With Expresss: Endpoint ${process.env.ENDPOINT_VERSION}`);
