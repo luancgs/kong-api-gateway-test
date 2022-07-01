@@ -2,32 +2,29 @@ version: '3.9'
 name: kong-api-gateway
 
 services:
-  endpoint_1:
-    container_name: endpoint1
+  api1:
+    container_name: api1
     build: ./endpoint/
     ports:
-      - "5001:3001"
+      - 5001:300
     environment:
       - ENDPOINT_VERSION=1
-      - PORT_NUMBER=3001
 
-  endpoint_2:
-    container_name: endpoint2
+  api2:
+    container_name: api2
     build: ./endpoint/
     ports:
-      - "5002:3002"
+      - 5002:3000
     environment:
       - ENDPOINT_VERSION=2
-      - PORT_NUMBER=3002
       
-  endpoint_3:
-    container_name: endpoint3
+  api3:
+    container_name: api3
     build: ./endpoint/
     ports:
-      - "5003:3003"
+      - 5003:3000
     environment:
       - ENDPOINT_VERSION=3
-      - PORT_NUMBER=3003
 
   kong-dbless:
     container_name: kong
@@ -38,9 +35,8 @@ services:
       - 127.0.0.1:8001:8001 
       - 127.0.0.1:8444:8444
     environment:
-      - name=value
       - KONG_DATABASE=off
-      - KONG_DECLARATIVE_CONFIG=/kong/declarative/kong.yml
+      - KONG_DECLARATIVE_CONFIG=/kong/declarative/kong.json
       - KONG_PROXY_ACCESS_LOG=/dev/stdout
       - KONG_ADMIN_ACCESS_LOG=/dev/stdout
       - KONG_PROXY_ERROR_LOG=/dev/stderr
@@ -48,3 +44,11 @@ services:
       - KONG_ADMIN_LISTEN=0.0.0.0:8001, 0.0.0.0:8444 ssl
     volumes:
       - ./kong/:/kong/declarative/
+
+  prometheus:
+    container_name: prometheus
+    image: prom/prometheus
+    ports:
+      - 9090:9090
+    volumes:
+      - ./prometheus:/etc/prometheus
