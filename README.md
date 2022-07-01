@@ -17,3 +17,5 @@ docker compose up
 ```
 
 Wait until you see a log displaying the internal port numbers for the endpoints, then you can acess the gateway at http://localhost:8000, using one of these paths: `/end1`, `/end2`, or `/end3`.
+
+If you have Postman, you can import [this collection](./kong.postman_collection.json) for an easy access to all the gateway endpoints.
